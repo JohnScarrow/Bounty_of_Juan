@@ -1,3 +1,9 @@
+/**
+ * @file juan.h
+ * @author your name (you@domain.com)
+ * @brief handles player stats and player sprite
+ * @date 2026-04-07
+ */
 #ifndef JUAN_H
 #define JUAN_H
 
