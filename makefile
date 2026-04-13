@@ -1,3 +1,5 @@
+all: obj game run
+
 CC = g++
 FLAGS = -Wall -std=c++17 
 LINKS = -lsfml-graphics -lsfml-window -lsfml-system 
@@ -9,6 +11,12 @@ LINKS = -lsfml-graphics -lsfml-window -lsfml-system
 # states = screens (quit, welcome, game, results) - only need .h file
 # button = buttons 
 # results = results 
+
+run: game
+	./game
+
+obj:
+	mkdir -p objects
 
 game: objects/main.o objects/game.o objects/welcome.o objects/play.o objects/juan.o objects/button.o objects/results.o
 	$(CC) $(FLAGS) $^ -o $@ $(LINKS)
@@ -35,4 +43,4 @@ objects/results.o: source/results.cpp header/results.h header/states.h header/bu
 	$(CC) $(FLAGS) -c $< -o objects/results.o
 
 clean:
-	rm -f game objects/*.o
+	rm  -r game objects
