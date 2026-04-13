@@ -1,0 +1,74 @@
+/**
+ * @file play.cpp
+ * @author Nathan, Brayden, John, Tristan
+ * @brief 
+ * @date 11-04-2026
+ * 
+ * 
+ */
+
+#include "../header/play.h"
+Play::Play()
+{
+    // mJuan.setBondary(30, 20, 580, 400); 
+
+    // mRules.setPosition(sf::Vector2f(60, 450));
+    // mRules.setSize(sf::Vector2f(60, 20));
+    // mRules.setText("Rules");
+    // mRules.setColorTextNormal(sf::Color::Blue);
+    
+    // mRestart.setPosition(sf::Vector2f(220, 450));
+    // mRestart.setSize(sf::Vector2f(60, 20));
+    // mRestart.setText("Restart");
+    // mRestart.setColorTextNormal(sf::Color::Blue);
+
+    // mResults.setPosition(sf::Vector2f(420, 450));
+    // mResults.setSize(sf::Vector2f(60, 20));
+    // mResults.setText("Results");
+    // mResults.setColorTextNormal(sf::Color::Blue);
+    
+    // mExit.setText("Exit");
+    // mExit.setPosition({580, 450});
+    // mExit.setSize({60, 20});
+    // mExit.setColorTextNormal(sf::Color::Blue);
+}
+
+// State Play::handleInput(sf::Event& e,  sf::RenderWindow& window)
+// {
+//     if (mRules.handleInput(e, window)){
+//         return welcome;
+//     }
+//     if (mRestart.handleInput(e, window)){
+//         return game;
+//     }
+//     if (mResults.handleInput(e, window)){
+//         return results;
+//     }
+//     if (mExit.handleInput(e, window)){
+//         return quit;
+//     }  
+//     return game;
+// }
+
+sf::Vector2f Play::getJuanPosition() const
+{
+    return mJuan.getPosition();
+}
+
+void Play::update(double elapsedTime, sf::RenderWindow& window)
+{
+    mJuan.update(elapsedTime, window);
+    // mRules.update();
+    // mRestart.update();
+    // mResults.update();
+    // mExit.update();
+}
+
+void Play::render(sf::RenderWindow& window)
+{
+    mJuan.render(window);
+    // window.draw(mRules);
+    // window.draw(mRestart);
+    // window.draw(mResults);
+    // window.draw(mExit);
+}
