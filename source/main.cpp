@@ -22,6 +22,11 @@ int main()
         return -1;
     }
 
+    sf::Font font;
+    if(!font.loadFromFile("../assets/ARIAL.TTF")){ // replace with whatever font you choose
+        return -1;
+    }
+
     sf::Sprite bgSprite;
     bgSprite.setTexture(backTexture);
     
