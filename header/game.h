@@ -1,34 +1,37 @@
 /**
  * @file game.h
  * @author Nathan, Brayden, Tristan, John
- * @brief handles the visible window, updates to window:(rendering, updating, input)
+ * @brief handles the visible window, updates to window:(rendering, updating,
+ * input)
  * @date 2026-04-07
  */
 
 #ifndef GAME_H
 #define GAME_H
-#include "states.h"
-#include "welcome.h"
+#include "enemy.h"
 #include "play.h"
 #include "results.h"
+#include "states.h"
+#include "welcome.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>
+#include <vector>
 
-class Game
-{
-public:
+class Game {
+  public:
     Game();
-    ~Game(){};
+    ~Game() {};
 
-    void handleInput(sf::RenderWindow& mWindow);
-    void update(double elapsedTime, sf::RenderWindow& mWindow);
-    void render(sf::RenderWindow& mWindow);
+    void handleInput(sf::RenderWindow &mWindow);
+    void update(double elapsedTime, sf::RenderWindow &mWindow);
+    void render(sf::RenderWindow &mWindow);
     sf::Vector2f getJuanPosition() const;
-    //bool isDone() const;
+    // bool isDone() const;
 
-private:
-    //sf::RenderWindow mWindow;
-    // bool mIsDone;
+  private:
+    // sf::RenderWindow mWindow;
+    //  bool mIsDone;
     State mGameState;
     // Welcome mWelcomeScreen;
     Play mGame;
