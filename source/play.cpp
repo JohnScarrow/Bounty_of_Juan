@@ -1,22 +1,21 @@
 /**
  * @file play.cpp
  * @author Nathan, Brayden, John, Tristan
- * @brief 
+ * @brief
  * @date 11-04-2026
- * 
- * 
+ *
+ *
  */
 
 #include "../header/play.h"
-Play::Play()
-{
-    // mJuan.setBondary(30, 20, 580, 400); 
+Play::Play() {
+    // mJuan.setBondary(30, 20, 580, 400);
 
     // mRules.setPosition(sf::Vector2f(60, 450));
     // mRules.setSize(sf::Vector2f(60, 20));
     // mRules.setText("Rules");
     // mRules.setColorTextNormal(sf::Color::Blue);
-    
+
     // mRestart.setPosition(sf::Vector2f(220, 450));
     // mRestart.setSize(sf::Vector2f(60, 20));
     // mRestart.setText("Restart");
@@ -26,7 +25,7 @@ Play::Play()
     // mResults.setSize(sf::Vector2f(60, 20));
     // mResults.setText("Results");
     // mResults.setColorTextNormal(sf::Color::Blue);
-    
+
     // mExit.setText("Exit");
     // mExit.setPosition({580, 450});
     // mExit.setSize({60, 20});
@@ -46,17 +45,13 @@ Play::Play()
 //     }
 //     if (mExit.handleInput(e, window)){
 //         return quit;
-//     }  
+//     }
 //     return game;
 // }
 
-sf::Vector2f Play::getJuanPosition() const
-{
-    return mJuan.getPosition();
-}
+sf::Vector2f Play::getJuanPosition() const { return mJuan.getPosition(); }
 
-void Play::update(double elapsedTime, sf::RenderWindow& window)
-{
+void Play::update(double elapsedTime, sf::RenderWindow &window) {
     mJuan.update(elapsedTime, window);
     // mRules.update();
     // mRestart.update();
@@ -64,11 +59,14 @@ void Play::update(double elapsedTime, sf::RenderWindow& window)
     // mExit.update();
 }
 
-void Play::render(sf::RenderWindow& window)
-{
+void Play::render(sf::RenderWindow &window) {
     mJuan.render(window);
     // window.draw(mRules);
     // window.draw(mRestart);
     // window.draw(mResults);
     // window.draw(mExit);
 }
+void Play::initializeEnemyList(sf::RenderWindow &window) {
+    mEnemyList.push_back(Enemy(&mJuan, &window));
+}
+void Play::addEnemy() { mEnemyList.push_back(Enemy()); }
