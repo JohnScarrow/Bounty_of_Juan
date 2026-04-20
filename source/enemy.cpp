@@ -19,8 +19,18 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
     enemy.setOrigin(enemyTexture.getSize().x / 2.f,
                     enemyTexture.getSize().y / 2.f);
     getRandomSpawn();
+    enemyCount++;
 }
-Enemy::Enemy() {}
+Enemy::Enemy() {
+    if (!enemyTexture.loadFromFile("")) {
+        std::cerr << "Failed to load enemy texture!\n";
+    }
+    enemy.setTexture(enemyTexture);
+    enemy.setOrigin(enemyTexture.getSize().x / 2.f,
+                    enemyTexture.getSize().y / 2.f);
+    getRandomSpawn();
+    enemyCount++;
+}
 
 void Enemy::getRandomSpawn() {
     switch ((rand() % 4) + 1) {
