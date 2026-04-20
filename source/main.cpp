@@ -23,7 +23,7 @@ int main()
     }
 
     sf::Font font;
-    if(!font.loadFromFile("../assets/ARIAL.TTF")){ // replace with whatever font you choose
+    if(!font.loadFromFile("./assets/ARIAL.TTF")){ // replace with whatever font you choose
         return -1;
     }
 
