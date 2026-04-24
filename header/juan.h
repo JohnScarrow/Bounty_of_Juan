@@ -7,26 +7,38 @@
 
 #ifndef JUAN_H
 #define JUAN_H
+#include "../header/projectile.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 
-class Juan
-{
-public:
+class Juan {
+  public:
     Juan();
+    ~Juan();
 
-    void update(double elapsedTime, sf::RenderWindow& window);
-    void render(sf::RenderWindow& window);
+    void update(double elapsedTime, sf::RenderWindow &window,
+                sf::Vector2f target);
+    void render(sf::RenderWindow &window);
     sf::Vector2f getPosition() const;
+    void updateAllProjectiles(sf::RenderWindow &window, double elapsedTime);
+    void renderAllProjectiles(sf::RenderWindow &window);
+    void destoryProjectile(Projectile *x);
+    void shoot();
+    void setTarget(sf::Vector2f target) { mTarget = target; }
+
     // void setBondary(int xPosition, int yPosition, int width, int hight);
 
-private:
+  private:
+    std::vector<Projectile *> mShootingList;
+    uint mAttackTiming;
+    sf::Vector2f mTarget;
     sf::Texture mTextureTile;
     sf::CircleShape mJuan;
     // sf::Vector2f mIncrement;
     sf::Vector2i mPosition;
     sf::Vector2i mSize;
-
-    void moveJuan(float speed, sf::RenderWindow& window);
+    void moveJuan(float speed, sf::RenderWindow &window);
 };
 
 // class Juan{
