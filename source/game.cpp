@@ -8,8 +8,10 @@
  */
 
 #include "../header/game.h"
+#include <SFML/Graphics/RenderWindow.hpp>
 
-Game::Game() {
+Game::Game(sf::RenderWindow &window) {
+    mGame.initializeEnemyList(window);
     // mIsDone = false;
     //  mGameState = welcome;
 }

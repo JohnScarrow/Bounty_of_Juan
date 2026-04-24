@@ -18,7 +18,7 @@ run: game
 obj:
 	mkdir -p objects
 
-game: objects/main.o objects/game.o objects/welcome.o objects/play.o objects/juan.o objects/button.o objects/results.o
+game: objects/main.o objects/game.o objects/welcome.o objects/play.o objects/juan.o objects/button.o objects/results.o objects/enemy.o objects/projectile.o
 	$(CC) $(FLAGS) $^ -o $@ $(LINKS)
 
 objects/main.o: source/main.cpp header/game.h
@@ -41,6 +41,13 @@ objects/button.o: source/button.cpp header/button.h
 
 objects/results.o: source/results.cpp header/results.h header/states.h header/button.h
 	$(CC) $(FLAGS) -c $< -o objects/results.o
+
+objects/enemy.o: source/enemy.cpp header/enemy.h
+		$(CC) $(FLAGS) -c $< -o objects/enemy.o
+
+objects/projectile.o: source/projectile.cpp header/projectile.h
+		$(CC) $(FLAGS) -c $< -o objects/projectile.o
+
 
 clean:
 	rm  -r game objects
