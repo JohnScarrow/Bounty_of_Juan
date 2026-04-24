@@ -20,7 +20,7 @@
 
 class Game {
   public:
-    Game();
+    Game(sf::RenderWindow &window);
     ~Game() {};
 
     void handleInput(sf::RenderWindow &mWindow);
