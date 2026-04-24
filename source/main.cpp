@@ -7,12 +7,14 @@
 
 #include "../header/game.h"
 #include <SFML/Graphics.hpp>
-#include <cmath>
+#include <ctime>
 #include <iostream>
 
 int main() {
+    srand(std::time(NULL));
     sf::RenderWindow window(sf::VideoMode(1000, 800), "Bounty of Juan");
     sf::View view(sf::FloatRect(0, 0, 1000, 800));
+    window.setFramerateLimit(60.f);
 
     sf::Texture backTexture;
     if (!backTexture.loadFromFile("assets/background.png")) {
@@ -36,7 +38,7 @@ int main() {
                       (float)windowSize.y / textureSize.y);
 
     window.setPosition({50, 50});
-    Game game;
+    Game game(window);
 
     sf::Clock clock;
 
