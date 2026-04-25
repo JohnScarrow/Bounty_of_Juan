@@ -8,7 +8,7 @@
  */
 
 #include "../header/play.h"
-#include "results.h"
+#include "../header/results.h"
 #include <SFML/System/Vector2.hpp>
 Play::Play() {
     // mJuan.setBondary(30, 20, 580, 400);
@@ -71,7 +71,7 @@ sf::Vector2f Play::selectTarget() {
 }
 
 void Play::update(double elapsedTime, sf::RenderWindow &window) {
-    Stats::instance().updateTime(elaspedTime);
+    Results::instance().updateTime(elapsedTime);
     mJuan.update(elapsedTime, window, selectTarget());
     updateAllEnemies(elapsedTime);
 
@@ -132,7 +132,7 @@ void Play::renderAllEnemies() {
  * 
  * @param enemy 
  */
-void Play::destroyEnemy(Enemy *enemy) { Stats::instance().enemyKilled(); delete enemy; }
+void Play::destroyEnemy(Enemy *enemy) { Results::instance().enemyKilled(); delete enemy; }
 /**
  * @brief removes the entire list of enemies
  * 

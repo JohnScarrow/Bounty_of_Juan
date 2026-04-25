@@ -8,7 +8,7 @@
  */
 
 #include "../header/juan.h"
-#include "results.h"
+#include "../header/results.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
@@ -117,7 +117,7 @@ void Juan::updateAllProjectiles(sf::RenderWindow &window, double elapsedTime) {
         if (x->shotState()) {
             temp.push_back(x);
         } else {
-            Stats::instance().shotMissed();
+            Results::instance().shotMissed();
             delete x;
         }
     }
@@ -139,7 +139,7 @@ void Juan::renderAllProjectiles(sf::RenderWindow &window) {
  */
 void Juan::shoot() {
     mShootingList.push_back(new Projectile(mJuan.getPosition(), mTarget));
-    Stats::instance().shotFired();
+    Results::instance().shotFired();
 }
 /**
  * @brief Deletes all projectiles from the vector ensuring no memory leaks
