@@ -8,6 +8,7 @@
  */
 
 #include "../header/play.h"
+#include "../header/results.h"
 #include <SFML/System/Vector2.hpp>
 Play::Play() {
     // mJuan.setBondary(30, 20, 580, 400);
@@ -70,6 +71,7 @@ sf::Vector2f Play::selectTarget() {
 }
 
 void Play::update(double elapsedTime, sf::RenderWindow &window) {
+    Results::instance().updateTime(elapsedTime);
     mJuan.update(elapsedTime, window, selectTarget());
     updateAllEnemies(elapsedTime);
 
@@ -104,7 +106,7 @@ void Play::initializeEnemyList(sf::RenderWindow &window) {
  * @brief makes a pointer to a new enemy and pushes it to the vector
  * 
  */
-void Play::addEnemy() { mEnemyList.push_back(new Enemy()); }
+void Play::addEnemy() { mEnemyList.push_back(new Enemy()); Results::instance().enemySpawned(); }
 /**
  * @brief iterates over the list of enemies and calls the update method on all of them
  * 
@@ -130,7 +132,7 @@ void Play::renderAllEnemies() {
  * 
  * @param enemy 
  */
-void Play::destroyEnemy(Enemy *enemy) { delete enemy; }
+void Play::destroyEnemy(Enemy *enemy) { Results::instance().enemyKilled(); delete enemy; }
 /**
  * @brief removes the entire list of enemies
  * 
