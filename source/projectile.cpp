@@ -21,6 +21,9 @@ Projectile::Projectile(sf::Vector2f origin, sf::Vector2f direction) {
     range = 200;
     distance = 1000;
     velocity = 1000;
+    damage = 1;
+    mHit = false;
+    distanceTraveled = 0.f;
 
     projectile_color = sf::Color::Red;
     body.setRadius(radiusEffect);
@@ -29,12 +32,14 @@ Projectile::Projectile(sf::Vector2f origin, sf::Vector2f direction) {
 }
 void Projectile::render(sf::RenderWindow &window) { window.draw(body); }
 bool Projectile::shotState() {
-    if (distanceTraveled > distance) {
-
-        return false;
-    }
-    return true;
+    return !mHit && distanceTraveled <= distance;
 }
+
+void Projectile::markHit() { mHit = true; }
+bool Projectile::wasHit() const { return mHit; }
+sf::Vector2f Projectile::getPosition() const { return body.getPosition(); }
+float Projectile::getRadius() const { return static_cast<float>(radiusEffect); }
+int Projectile::getDamage() const { return damage; }
 
 void Projectile::distanceHyp() {
     distanceTraveled = std::sqrt(std::pow(origin.x - body.getPosition().x, 2) +

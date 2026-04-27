@@ -82,6 +82,7 @@ int main() {
             }
         }
         game.render(window);
+        game.inGameStats(window, font);
 
         window.display();
     }

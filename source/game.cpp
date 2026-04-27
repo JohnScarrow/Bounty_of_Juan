@@ -8,7 +8,11 @@
  */
 
 #include "../header/game.h"
+#include "../header/results.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <string>
+#include <vector>
 
 Game::Game(sf::RenderWindow &window) {
     mGame.initializeEnemyList(window);
@@ -75,6 +79,47 @@ void Game::update(double elapsedTime, sf::RenderWindow &window) {
 }
 
 void Game::render(sf::RenderWindow &window) { mGame.render(window); }
+
+void Game::inGameStats(sf::RenderWindow &window, const sf::Font &font) {
+    Stats stats = Results::instance().getStats();
+
+    int minutes = static_cast<int>(stats.timeSurvived) / 60;
+    int seconds = static_cast<int>(stats.timeSurvived) % 60;
+
+    int accuracy = 0;
+    if (stats.shotsFired > 0) {
+        int shotsHit = stats.shotsFired - stats.shotsMissed;
+        accuracy = static_cast<int>((float)shotsHit / stats.shotsFired * 100.f);
+    }
+
+    // This is the text that is displayed during gameplay
+    std::vector<std::string> lines = {
+        "Time: " + std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds),
+        "Enemies Killed: " + std::to_string(stats.enemiesKilled),
+        "Shots Fired: " + std::to_string(stats.shotsFired),
+        "Accuracy: " + std::to_string(accuracy) + "%"
+    };
+
+    sf::View gameView = window.getView();
+    window.setView(window.getDefaultView());
+
+    float y = 10.f;
+    for (const auto &line : lines) {
+        sf::Text text;
+        text.setFont(font);
+        text.setString(line);
+        text.setCharacterSize(20);
+        text.setFillColor(sf::Color::White);
+        text.setOutlineColor(sf::Color::Black);
+        text.setOutlineThickness(1.f);
+        text.setPosition(10.f, y);
+        window.draw(text);
+        y += 28.f;
+    }
+
+    window.setView(gameView);
+}
+
 
 sf::Vector2f Game::getJuanPosition() const { return mGame.getJuanPosition(); }
 

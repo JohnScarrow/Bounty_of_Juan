@@ -117,7 +117,8 @@ void Juan::updateAllProjectiles(sf::RenderWindow &window, double elapsedTime) {
         if (x->shotState()) {
             temp.push_back(x);
         } else {
-            Results::instance().shotMissed();
+            if (!x->wasHit())
+                Results::instance().shotMissed();
             delete x;
         }
     }
