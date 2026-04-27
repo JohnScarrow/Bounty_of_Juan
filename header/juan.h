@@ -26,6 +26,7 @@ class Juan {
     void destoryProjectile(Projectile *x);
     void shoot();
     void setTarget(sf::Vector2f target) { mTarget = target; }
+    const std::vector<Projectile *> &getProjectiles() const { return mShootingList; }
 
     // void setBondary(int xPosition, int yPosition, int width, int hight);
 

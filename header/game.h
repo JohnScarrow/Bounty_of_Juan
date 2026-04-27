@@ -26,6 +26,7 @@ class Game {
     void handleInput(sf::RenderWindow &mWindow);
     void update(double elapsedTime, sf::RenderWindow &mWindow);
     void render(sf::RenderWindow &mWindow);
+    void inGameStats(sf::RenderWindow &mWindow, const sf::Font &font);
     sf::Vector2f getJuanPosition() const;
     // bool isDone() const;
 
