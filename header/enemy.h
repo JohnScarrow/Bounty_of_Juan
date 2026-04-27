@@ -62,6 +62,9 @@ class Enemy {
     void renderAllProjectiles();
     void destoryProjectile(Projectile *x);
     void shoot();
+    void takeDamage(int dmg);
+    bool isDead() const;
+    sf::FloatRect getGlobalBounds() const;
     static sf::RenderWindow *window;
     static Juan *juan;
     static unsigned int enemyCount;
@@ -70,7 +73,7 @@ class Enemy {
     std::vector<Projectile *> shootingList;
     uint attackTiming;
     unsigned int attackSpeed;
-    unsigned int health;
+    int health;
     float speed;
     float hypotenuse;
     float currentRotation;

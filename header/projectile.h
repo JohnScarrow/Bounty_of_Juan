@@ -26,8 +26,14 @@ class Projectile {
     bool shotState();
     void distanceHyp();
     void update(sf::RenderWindow &window, double elapsedTime);
+    void markHit();
+    bool wasHit() const;
+    sf::Vector2f getPosition() const;
+    float getRadius() const;
+    int getDamage() const;
 
   private:
+    bool mHit;
     float distanceTraveled;
     float distance;
     sf::Vector2f direction;
