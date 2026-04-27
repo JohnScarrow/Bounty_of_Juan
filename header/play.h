@@ -30,6 +30,7 @@ class Play {
     void renderAllEnemies();
     void destroyEnemy(Enemy *enemy);
     void destroyEnemyList();
+    void checkCollisions();
     sf::Vector2f selectTarget();
 
   private:

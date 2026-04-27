@@ -10,6 +10,7 @@
 #include "../header/play.h"
 #include "../header/results.h"
 #include <SFML/System/Vector2.hpp>
+#include <algorithm>
 Play::Play() {
     // mJuan.setBondary(30, 20, 580, 400);
 
@@ -70,10 +71,38 @@ sf::Vector2f Play::selectTarget() {
     return mEnemyList[target]->getEnemyPos();
 }
 
+void Play::checkCollisions() {
+    const std::vector<Projectile *> &projectiles = mJuan.getProjectiles();
+
+    std::vector<Enemy *> dead;
+    for (Enemy *enemy : mEnemyList) {
+        sf::FloatRect bounds = enemy->getGlobalBounds();
+        for (Projectile *proj : projectiles) {
+            if (proj->wasHit())
+                continue;
+            float r = proj->getRadius();
+            sf::Vector2f pos = proj->getPosition();
+            sf::FloatRect projRect(pos.x - r, pos.y - r, r * 2.f, r * 2.f);
+            if (bounds.intersects(projRect)) {
+                enemy->takeDamage(proj->getDamage());
+                proj->markHit();
+            }
+        }
+        if (enemy->isDead())
+            dead.push_back(enemy);
+    }
+
+    for (Enemy *e : dead) {
+        mEnemyList.erase(std::remove(mEnemyList.begin(), mEnemyList.end(), e), mEnemyList.end());
+        destroyEnemy(e);
+    }
+}
+
 void Play::update(double elapsedTime, sf::RenderWindow &window) {
     Results::instance().updateTime(elapsedTime);
     mJuan.update(elapsedTime, window, selectTarget());
     updateAllEnemies(elapsedTime);
+    checkCollisions();
 
     // mRules.update();
     // mRestart.update();

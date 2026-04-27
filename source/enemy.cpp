@@ -51,8 +51,8 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
     getRandomSpawn();
     enemy.setPosition(spawnLocation);
     speed = 100;
+    health = 3;
     attackTiming = 0;
-    ;
 }
 /**
  * @brief General constructor for majority of the Enemy class
@@ -68,6 +68,7 @@ Enemy::Enemy() {
                     enemyTexture.getSize().y / 2.f);
     enemy.scale(.125, .125);
     speed = (rand() % 50) + 100;
+    health = 3;
     getRandomSpawn();
     enemy.setPosition(spawnLocation);
     enemyCount++;
@@ -230,6 +231,10 @@ void Enemy::renderAllProjectiles() {
 void Enemy::shoot() {
     shootingList.push_back(new Projectile(currentPosition, target));
 }
+
+void Enemy::takeDamage(int dmg) { health -= dmg; }
+bool Enemy::isDead() const { return health <= 0; }
+sf::FloatRect Enemy::getGlobalBounds() const { return enemy.getGlobalBounds(); }
 /**
  * @brief Destroy the Enemy:: Enemy object
  * ensures no memory leaks by freeing up all memory allocated to the shooting list
