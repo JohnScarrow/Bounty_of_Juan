@@ -16,10 +16,10 @@ public:
     Welcome();
     State handleInput(sf::Event& e,  sf::RenderWindow& mWindow);
     void update();
+    void update1();
     void render(sf::RenderWindow& mWindow);
 
 private:
-    sf::Text mRules;
     sf::Text mHeader;
     sf::Font mFont;
     Button mStart;  
