@@ -14,6 +14,7 @@
  * @param font a provided font, in main.cpp just call "font"
  * @param text the text inside the button
  */
+
 Button::Button(sf::Vector2f size, sf::Vector2f position, sf::Font& font, const std::string& text){
     mShape.setSize(size);
     mShape.setPosition(position);
@@ -77,4 +78,123 @@ bool Button::buttonClicked()
         return true;
     }
     return false;
+}
+
+// nathan added
+void Button::setText(std::string s)
+{
+    mText.setString(s);
+    //set origin to the middle
+    mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
+    //set position at the middle of the button
+    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+}
+
+void Button::setPosition(sf::Vector2f position)
+{
+    mPosition = position;
+    mButton.setPosition(mPosition.x,mPosition.y);
+
+    //choose the font size based on button size (I choose half)
+    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    
+    //set origin to the middle
+    //set position at the middle of the button
+    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+}
+
+void Button::setSize(sf::Vector2f  size)
+{
+    sf::Vector2u imageSize=mTexture.getSize();
+    mButton.setScale(size.x/imageSize.x, size.y/imageSize.y);
+    //choose the font size based on button size (I choose half)
+    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    mText.setCharacterSize(fontSize);
+    //set origin to the middle
+    mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
+    //set position at the middle of the button
+    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+}
+
+void Button::setColor(sf::Color btnColor)
+{
+    mButtonColor = btnColor;
+    mButton.setColor(mButtonColor);
+}
+
+bool Button::handleInput(sf::Event& e, sf::RenderWindow& window)
+{
+    //get position of the mouse
+    sf::Vector2i mPos = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosition = window.mapPixelToCoords(mPos);
+    bool mouseInButton =    mousePosition.x >= mButton.getPosition().x - mButton.getGlobalBounds().width/2
+                            && mousePosition.x <= mButton.getPosition().x + mButton.getGlobalBounds().width/2
+                            && mousePosition.y >= mButton.getPosition().y - mButton.getGlobalBounds().height/2
+                            && mousePosition.y <= mButton.getPosition().y + mButton.getGlobalBounds().height/2;
+    if(e.type == sf::Event::MouseMoved)
+    {
+        if(mouseInButton)
+        {
+            mBtnState = state::hovered;
+        }
+        else
+        {
+            mBtnState = state::normal;
+        }
+    }
+    if (e.type == sf::Event::MouseButtonPressed)
+    {
+        if(e.mouseButton.button==sf::Mouse::Left)
+        {
+            if(mouseInButton)
+            {
+                mBtnState = state::clicked;
+                return true;
+            }
+            else
+            {
+                mBtnState = state::normal;
+            }
+        }
+    }
+    if (e.type == sf::Event::MouseButtonReleased)
+    {
+        if (e.mouseButton.button==sf::Mouse::Left)
+        {
+            if(mouseInButton)
+            {
+                mBtnState = state::hovered;
+            }
+            else
+            {
+                mBtnState = state::normal;
+            }
+        }
+    }
+    return false;
+}
+
+void Button::update1()
+{
+    switch (mBtnState)
+    {
+    case normal:
+        mButton.setRotation(0);
+        mText.setFillColor(mTextNormal);
+        break;
+    case hovered:
+        mButton.setRotation(0);
+        mText.setFillColor(mTextHover);
+        break;
+    case clicked:
+        mButton.setRotation(180);
+        mText.setFillColor(mTextHover);
+        break;
+    }
+}
+void Button::draw(sf::RenderTarget& target,sf::RenderStates states) const
+{
+    target.draw(mButton, states);
+    target.draw(mText, states);
 }
