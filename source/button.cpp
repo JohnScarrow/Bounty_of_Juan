@@ -96,27 +96,20 @@ void Button::setText(std::string s)
 void Button::setPosition(sf::Vector2f position)
 {
     mPosition = position;
-    mButton.setPosition(mPosition.x,mPosition.y);
-
-    //choose the font size based on button size (I choose half)
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
-    
-    //set origin to the middle
-    //set position at the middle of the button
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    mShape.setPosition(position);
+    sf::FloatRect b = mShape.getGlobalBounds();
+    mText.setPosition(b.left + b.width / 2.f, b.top + b.height / 2.f);
 }
 
-void Button::setSize(sf::Vector2f  size)
+void Button::setSize(sf::Vector2f size)
 {
-    sf::Vector2u imageSize=mTexture.getSize();
-    mButton.setScale(size.x/imageSize.x, size.y/imageSize.y);
-    //choose the font size based on button size (I choose half)
-    unsigned int fontSize = mButton.getGlobalBounds().height/2;
+    mShape.setSize(size);
+    mShape.setFillColor(sf::Color::Blue);
+    sf::FloatRect b = mShape.getGlobalBounds();
+    unsigned int fontSize = static_cast<unsigned int>(size.y / 2.f);
     mText.setCharacterSize(fontSize);
-    //set origin to the middle
-    mText.setOrigin(mText.getGlobalBounds().width/2, mText.getGlobalBounds().height/2);
-    //set position at the middle of the button
-    mText.setPosition(mPosition.x, mPosition.y-fontSize/4);
+    mText.setOrigin(mText.getGlobalBounds().width / 2.f, mText.getGlobalBounds().height / 2.f);
+    mText.setPosition(b.left + b.width / 2.f, b.top + b.height / 2.f);
 }
 
 void Button::setColor(sf::Color btnColor)
@@ -127,13 +120,9 @@ void Button::setColor(sf::Color btnColor)
 
 bool Button::handleInput(sf::Event& e, sf::RenderWindow& window)
 {
-    //get position of the mouse
     sf::Vector2i mPos = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosition = window.mapPixelToCoords(mPos);
-    bool mouseInButton =    mousePosition.x >= mButton.getPosition().x - mButton.getGlobalBounds().width/2
-                            && mousePosition.x <= mButton.getPosition().x + mButton.getGlobalBounds().width/2
-                            && mousePosition.y >= mButton.getPosition().y - mButton.getGlobalBounds().height/2
-                            && mousePosition.y <= mButton.getPosition().y + mButton.getGlobalBounds().height/2;
+    sf::Vector2f mousePosition = window.mapPixelToCoords(mPos, window.getDefaultView());
+    bool mouseInButton = mShape.getGlobalBounds().contains(mousePosition);
     if(e.type == sf::Event::MouseMoved)
     {
         if(mouseInButton)

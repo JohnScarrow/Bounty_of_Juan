@@ -9,17 +9,16 @@ Welcome::Welcome()
     }
     
     mHeader.setFont(mFont);
-    //choose the font size based on button size (I choose half)
-    mHeader.setCharacterSize(20);
-
-    // //set label
+    mHeader.setCharacterSize(72);
     mHeader.setString("Bounty of Juan");
+    mHeader.setFillColor(sf::Color::White);
+    sf::FloatRect hBounds = mHeader.getLocalBounds();
+    mHeader.setOrigin(hBounds.left + hBounds.width / 2.f, hBounds.top + hBounds.height / 2.f);
+    mHeader.setPosition(500.f, 250.f);
 
-    mStart.setText("Start");
-    mStart.setPosition({580, 450});
-    mStart.setSize({60, 20});
-    // mStart.setColorTextNormal(sf::Color::Blue);
-    //mStart.setColor(sf::Color(255,255,0));
+    mStart.setText("Play");
+    mStart.setSize({160.f, 60.f});
+    mStart.setPosition({420.f, 420.f});
 }
 
 State Welcome::handleInput(sf::Event& e, sf::RenderWindow& window)
@@ -37,6 +36,9 @@ void Welcome::update1()
 
 void Welcome::render(sf::RenderWindow& window)
 {
+    sf::View saved = window.getView();
+    window.setView(window.getDefaultView());
     window.draw(mHeader);
-    // window.draw(mStart);
+    mStart.render(window);
+    window.setView(saved);
 }
