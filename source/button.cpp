@@ -15,6 +15,8 @@
  * @param text the text inside the button
  */
 
+Button::Button() : mClicked(false), mBtnState(state::normal) {}
+
 Button::Button(sf::Vector2f size, sf::Vector2f position, sf::Font& font, const std::string& text){
     mShape.setSize(size);
     mShape.setPosition(position);

@@ -2,7 +2,7 @@
 
 Welcome::Welcome()
 {
-    if (!mFont.loadFromFile("assets/westernFonts.otf"))
+    if (!mFont.loadFromFile("assets/westernFont.otf"))
     {
         std::cout<<"Error opening file\n";
         exit(2);

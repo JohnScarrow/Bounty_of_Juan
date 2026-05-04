@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+/.claude/
+/game
 
 # Compiled Object files
 *.slo
