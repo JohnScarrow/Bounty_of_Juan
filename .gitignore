@@ -1,3 +1,9 @@
+# vscode
+/.vscode/
+/.claude/
+/game
+
+
 # Prerequisites
 *.d
 /.claude/

@@ -10,10 +10,37 @@
 #include "states.h"
 #include "button.h"
 
-class Results
+struct Stats{
+    int enemiesSpawned = 0;
+    int enemiesKilled = 0;
+    int shotsFired = 0;
+    int shotsMissed = 0;
+    float timeSurvived = 0.0;
+};
+
+// Singleton stat tracker used throughout gameplay
+class Results{
+public:
+    static Results& instance();
+
+    void enemySpawned();
+    void enemyKilled();
+    void shotFired();
+    void shotMissed();
+    void updateTime(float dt);
+
+    Stats getStats() const;
+    void reset();
+private:
+    Stats stats;
+    Results() = default;
+};
+
+// Screen shown when the player dies
+class ResultsScreen
 {
 public:
-    Results();
+    ResultsScreen();
     State handleInput(sf::Event& e, sf::RenderWindow& window);
     void render(sf::RenderWindow& window);
 

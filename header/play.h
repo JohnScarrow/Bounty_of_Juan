@@ -8,22 +8,35 @@
 #ifndef PLAY_H
 #define PLAY_H
 
-#include "states.h"
 #include "button.h"
+#include "enemy.h"
 #include "juan.h"
+#include "states.h"
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <vector>
 
-class Play
-{
-public:
+class Play {
+  public:
     Play();
-    State handleInput(sf::Event& e,  sf::RenderWindow& window);
-    void update(double elapsedTime, sf::RenderWindow& window);
-    void render(sf::RenderWindow& window);
+    ~Play();
+    State handleInput(sf::Event &e, sf::RenderWindow &window);
+    void update(double elapsedTime, sf::RenderWindow &window);
+    void render(sf::RenderWindow &window);
     sf::Vector2f getJuanPosition() const;
+    void initializeEnemyList(sf::RenderWindow &window);
+    void addEnemy();
+    void updateAllEnemies(double elapsedTime);
+    void renderAllEnemies();
+    void destroyEnemy(Enemy *enemy);
+    void destroyEnemyList();
+    void checkCollisions();
+    sf::Vector2f selectTarget();
 
-private:
+  private:
     Juan mJuan;
-    // Button mRestart;  
+    std::vector<Enemy *> mEnemyList;
+    // Button mRestart;
     // Button mRules;
     // Button mResults;
     // Button mExit;
