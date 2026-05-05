@@ -43,6 +43,7 @@ State Play::handleInput(sf::Event& e, sf::RenderWindow& window)
 }
 
 sf::Vector2f Play::getJuanPosition() const { return mJuan.getPosition(); }
+bool Play::isJuanDead() const { return mJuan.isDead(); }
 /**
  * @brief iterates over the list of enemies and picks the enemy closest to the 
  * PC and returns the position of that enemy
