@@ -30,9 +30,10 @@ private:
     //sf::RenderWindow mWindow;
     // bool mIsDone;
     State mGameState;
+    State mPreviousState;
     Welcome mWelcomeScreen;
     Play mGame;
-    // Results mResults;
+    Results mResults;
 };
 
 #endif

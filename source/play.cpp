@@ -35,6 +35,8 @@ Play::Play()
 
 State Play::handleInput(sf::Event& e, sf::RenderWindow& window)
 {
+    if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+        return paused;
     return game;
 }
 

@@ -12,6 +12,7 @@
 Game::Game()
 {
     mGameState = welcome;
+    mPreviousState = welcome;
 }
 
 void Game::handleInput(sf::RenderWindow& window)
@@ -29,6 +30,13 @@ void Game::handleInput(sf::RenderWindow& window)
             break;
         case game:
             mGameState = mGame.handleInput(event, window);
+            break;
+        case paused:
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+                mGameState = game;
+            break;
+        case results:
+            mGameState = mResults.handleInput(event, window);
             break;
         case quit:
             window.close();
@@ -49,6 +57,10 @@ void Game::update(double elapsedTime, sf::RenderWindow& window)
     case game:
         mGame.update(elapsedTime, window);
         break;
+    case paused:
+        break; // game world frozen while paused
+    case results:
+        break;
     case quit:
         window.close();
         break;
@@ -66,6 +78,12 @@ void Game::render(sf::RenderWindow& window)
         break;
     case game:
         mGame.render(window);
+        break;
+    case paused:
+        mGame.render(window); // keep world visible while paused
+        break;
+    case results:
+        mResults.render(window);
         break;
     default:
         break;
