@@ -74,6 +74,7 @@ class Enemy {
     uint attackTiming;
     unsigned int attackSpeed;
     int health;
+    float mDamageTimer;
     float speed;
     float hypotenuse;
     float currentRotation;

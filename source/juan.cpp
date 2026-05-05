@@ -35,6 +35,7 @@ Juan::Juan() {
     mSize.x = 0;
     mSize.y = 0;
     mAttackTiming = 0;
+    mHealth = 100;
 }
 
 sf::Vector2f Juan::getPosition() const { return mJuan.getPosition(); }
@@ -49,6 +50,9 @@ void Juan::update(double elapsedTime, sf::RenderWindow &window,
                   sf::Vector2f target) {
     mTarget = target;
     moveJuan(200.f * elapsedTime, window);
+    mAttackTiming++;
+    if (mAttackTiming % 15 == 0)
+        shoot();
     updateAllProjectiles(window, elapsedTime);
 }
 
@@ -85,11 +89,37 @@ void Juan::moveJuan(float speed, sf::RenderWindow &window) {
  */
 void Juan::render(sf::RenderWindow &window) {
     window.draw(mJuan);
-    mAttackTiming++;
-    if (mAttackTiming % 15 == 0) {
-        shoot();
-    }
     renderAllProjectiles(window);
+
+    // Health bar drawn in screen space
+    sf::View saved = window.getView();
+    window.setView(window.getDefaultView());
+
+    const float barW = 200.f, barH = 16.f, barX = 10.f, barY = 770.f;
+    sf::RectangleShape bg({barW, barH});
+    bg.setPosition(barX, barY);
+    bg.setFillColor(sf::Color(80, 0, 0));
+    window.draw(bg);
+
+    float pct = std::max(0, mHealth) / 100.f;
+    sf::RectangleShape fill({barW * pct, barH});
+    fill.setPosition(barX, barY);
+    fill.setFillColor(sf::Color(220, 40, 40));
+    window.draw(fill);
+
+    window.setView(saved);
+}
+
+void Juan::takeDamage(int dmg) { if (mHealth > 0) mHealth -= dmg; }
+bool Juan::isDead() const { return mHealth <= 0; }
+int Juan::getHealth() const { return mHealth; }
+void Juan::reset()
+{
+    mHealth = 100;
+    mAttackTiming = 0;
+    mJuan.setPosition(400.f, 300.f);
+    for (auto x : mShootingList) delete x;
+    mShootingList.clear();
 }
 
 // #include "juan.h"

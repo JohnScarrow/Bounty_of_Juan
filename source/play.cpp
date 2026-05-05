@@ -43,6 +43,15 @@ State Play::handleInput(sf::Event& e, sf::RenderWindow& window)
 }
 
 sf::Vector2f Play::getJuanPosition() const { return mJuan.getPosition(); }
+bool Play::isJuanDead() const { return mJuan.isDead(); }
+
+void Play::reset(sf::RenderWindow &window)
+{
+    mJuan.reset();
+    destroyEnemyList();
+    mEnemyList.clear();
+    initializeEnemyList(window);
+}
 /**
  * @brief iterates over the list of enemies and picks the enemy closest to the 
  * PC and returns the position of that enemy
@@ -50,6 +59,8 @@ sf::Vector2f Play::getJuanPosition() const { return mJuan.getPosition(); }
  * @return sf::Vector2f 
  */
 sf::Vector2f Play::selectTarget() {
+    if (mEnemyList.empty())
+        return mJuan.getPosition();
     float min = mEnemyList.at(0)->getHypotenuse();
     size_t target{};
     for (size_t x{1}; x < mEnemyList.size(); x++) {
