@@ -7,7 +7,44 @@
 
 #include "../header/results.h"
 
-Results::Results()
+// --- Results singleton stat tracker ---
+
+Results& Results::instance(){
+    static Results instance;
+    return instance;
+}
+
+void Results::enemySpawned(){
+    stats.enemiesSpawned++;
+}
+
+void Results::enemyKilled(){
+    stats.enemiesKilled++;
+}
+
+void Results::shotFired(){
+    stats.shotsFired++;
+}
+
+void Results::shotMissed(){
+    stats.shotsMissed++;
+}
+
+void Results::updateTime(float dt){
+    stats.timeSurvived += dt;
+}
+
+Stats Results::getStats() const{
+    return stats;
+}
+
+void Results::reset(){
+    stats = Stats();
+}
+
+// --- ResultsScreen display ---
+
+ResultsScreen::ResultsScreen()
 {
     if (!mFont.loadFromFile("assets/westernFont.otf"))
     {
@@ -28,14 +65,14 @@ Results::Results()
     mRestart.setPosition({400.f, 420.f});
 }
 
-State Results::handleInput(sf::Event& e, sf::RenderWindow& window)
+State ResultsScreen::handleInput(sf::Event& e, sf::RenderWindow& window)
 {
     if (mRestart.handleInput(e, window))
         return welcome;
     return results;
 }
 
-void Results::render(sf::RenderWindow& window)
+void ResultsScreen::render(sf::RenderWindow& window)
 {
     sf::View saved = window.getView();
     window.setView(window.getDefaultView());
