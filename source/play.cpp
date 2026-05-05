@@ -35,22 +35,12 @@ Play::Play() {
     // mExit.setColorTextNormal(sf::Color::Blue);
 }
 
-// State Play::handleInput(sf::Event& e,  sf::RenderWindow& window)
-// {
-//     if (mRules.handleInput(e, window)){
-//         return welcome;
-//     }
-//     if (mRestart.handleInput(e, window)){
-//         return game;
-//     }
-//     if (mResults.handleInput(e, window)){
-//         return results;
-//     }
-//     if (mExit.handleInput(e, window)){
-//         return quit;
-//     }
-//     return game;
-// }
+State Play::handleInput(sf::Event& e, sf::RenderWindow& window)
+{
+    if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+        return paused;
+    return game;
+}
 
 sf::Vector2f Play::getJuanPosition() const { return mJuan.getPosition(); }
 /**

@@ -15,12 +15,11 @@ class Welcome
 {
 public:
     Welcome();
-    State handleInput(sf::Event& e,  sf::RenderWindow& mWindow);
+    State handleInput(sf::Event& e, sf::RenderWindow& mWindow);
     void update(const sf::RenderWindow& mWindow);
     void render(sf::RenderWindow& mWindow);
 
 private:
-    sf::Text mRules;
     sf::Text mHeader;
     sf::Font mFont;
     std::unique_ptr<Button> mStart;
