@@ -53,6 +53,7 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
     speed = 100;
     health = 3;
     attackTiming = 0;
+    mDamageTimer = 0.f;
 }
 /**
  * @brief General constructor for majority of the Enemy class
@@ -69,6 +70,8 @@ Enemy::Enemy() {
     enemy.scale(.125, .125);
     speed = (rand() % 50) + 100;
     health = 3;
+    attackTiming = 0;
+    mDamageTimer = 0.f;
     getRandomSpawn();
     enemy.setPosition(spawnLocation);
     enemyCount++;
@@ -78,22 +81,26 @@ Enemy::Enemy() {
  *
  */
 void Enemy::getRandomSpawn() {
+    sf::Vector2f playerPos = juan->getPosition();
+    int w = static_cast<int>(window->getSize().x);
+    int h = static_cast<int>(window->getSize().y);
+
     switch ((rand() % 4) + 1) {
     case Top:
-        spawnLocation.y = 0;
-        spawnLocation.x = rand() % static_cast<int>(window->getSize().x);
+        spawnLocation.y = playerPos.y - h / 2.f;
+        spawnLocation.x = playerPos.x - w / 2.f + rand() % w;
         break;
     case Bottom:
-        spawnLocation.y = window->getSize().y;
-        spawnLocation.x = rand() % static_cast<int>(window->getSize().x);
+        spawnLocation.y = playerPos.y + h / 2.f;
+        spawnLocation.x = playerPos.x - w / 2.f + rand() % w;
         break;
     case Left:
-        spawnLocation.x = 0;
-        spawnLocation.y = rand() % static_cast<int>(window->getSize().y);
+        spawnLocation.x = playerPos.x - w / 2.f;
+        spawnLocation.y = playerPos.y - h / 2.f + rand() % h;
         break;
     case Right:
-        spawnLocation.x = window->getSize().x;
-        spawnLocation.y = rand() % static_cast<int>(window->getSize().y);
+        spawnLocation.x = playerPos.x + w / 2.f;
+        spawnLocation.y = playerPos.y - h / 2.f + rand() % h;
         break;
     }
 }
@@ -125,7 +132,7 @@ void Enemy::setVector() {
 void Enemy::moveEnemy(float elapsedTime) {
 
     // increase to increase the radius that the enemies go before stopping
-    float gap = 150.f;
+    float gap = 35.f;
     if (hypotenuse <= gap) {
         return;
     }
@@ -157,6 +164,23 @@ void Enemy::update(double elapsedTime) {
     // updateAllProjectiles(elapsedTime);
 
     moveEnemy(elapsedTime);
+
+    // Deal contact damage to Juan once per second when in range
+    if (hypotenuse <= 40.f) {
+        mDamageTimer += elapsedTime;
+        if (mDamageTimer >= 1.0f) {
+            juan->takeDamage(10);
+            mDamageTimer = 0.f;
+        }
+    } else {
+        mDamageTimer = 0.f;
+    }
+
+    // Scale up during windup, back to normal otherwise
+    if (hypotenuse <= 40.f && mDamageTimer > 0.6f)
+        enemy.setScale(0.1375f, 0.1375f);
+    else
+        enemy.setScale(0.125f, 0.125f);
 }
 // renders the enemy
 void Enemy::render() {
