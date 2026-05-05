@@ -27,12 +27,16 @@ class Juan {
     void shoot();
     void setTarget(sf::Vector2f target) { mTarget = target; }
     const std::vector<Projectile *> &getProjectiles() const { return mShootingList; }
+    void takeDamage(int dmg);
+    bool isDead() const;
+    int getHealth() const;
 
     // void setBondary(int xPosition, int yPosition, int width, int hight);
 
   private:
     std::vector<Projectile *> mShootingList;
     uint mAttackTiming;
+    int mHealth;
     sf::Vector2f mTarget;
     sf::Texture mTextureTile;
     sf::CircleShape mJuan;

@@ -53,6 +53,7 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
     speed = 100;
     health = 3;
     attackTiming = 0;
+    mDamageTimer = 0.f;
 }
 /**
  * @brief General constructor for majority of the Enemy class
@@ -69,6 +70,8 @@ Enemy::Enemy() {
     enemy.scale(.125, .125);
     speed = (rand() % 50) + 100;
     health = 3;
+    attackTiming = 0;
+    mDamageTimer = 0.f;
     getRandomSpawn();
     enemy.setPosition(spawnLocation);
     enemyCount++;
@@ -157,6 +160,17 @@ void Enemy::update(double elapsedTime) {
     // updateAllProjectiles(elapsedTime);
 
     moveEnemy(elapsedTime);
+
+    // Deal contact damage to Juan once per second when in range
+    if (hypotenuse <= 155.f) {
+        mDamageTimer += elapsedTime;
+        if (mDamageTimer >= 1.0f) {
+            juan->takeDamage(10);
+            mDamageTimer = 0.f;
+        }
+    } else {
+        mDamageTimer = 0.f;
+    }
 }
 // renders the enemy
 void Enemy::render() {

@@ -38,7 +38,7 @@ int main() {
                       (float)windowSize.y / textureSize.y);
 
     window.setPosition({50, 50});
-    Game game(window);
+    Game game(window, font);
 
     sf::Clock clock;
 
@@ -82,7 +82,6 @@ int main() {
             }
         }
         game.render(window);
-        game.inGameStats(window, font);
 
         window.display();
     }

@@ -12,9 +12,10 @@
 #include <string>
 #include <vector>
 
-Game::Game(sf::RenderWindow &window) {
+Game::Game(sf::RenderWindow &window, const sf::Font &font) {
     mGameState = welcome;
     mPreviousState = welcome;
+    mFont = font;
     mGame.initializeEnemyList(window);
 }
 
@@ -56,6 +57,8 @@ void Game::update(double elapsedTime, sf::RenderWindow &window) {
         break;
     case game:
         mGame.update(elapsedTime, window);
+        if (mGame.isJuanDead())
+            mGameState = results;
         break;
     case paused:
         break;
@@ -77,9 +80,11 @@ void Game::render(sf::RenderWindow &window) {
         break;
     case game:
         mGame.render(window);
+        inGameStats(window, mFont);
         break;
     case paused:
         mGame.render(window);
+        inGameStats(window, mFont);
         break;
     case results:
         mResults.render(window);

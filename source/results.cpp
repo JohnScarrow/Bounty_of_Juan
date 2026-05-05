@@ -6,6 +6,8 @@
  */
 
 #include "../header/results.h"
+#include <string>
+#include <vector>
 
 // --- Results singleton stat tracker ---
 
@@ -77,6 +79,38 @@ void ResultsScreen::render(sf::RenderWindow& window)
     sf::View saved = window.getView();
     window.setView(window.getDefaultView());
     window.draw(mHeader);
+
+    // Pull live stats from the singleton tracker
+    Stats s = Results::instance().getStats();
+    int minutes = static_cast<int>(s.timeSurvived) / 60;
+    int seconds = static_cast<int>(s.timeSurvived) % 60;
+    int accuracy = 0;
+    if (s.shotsFired > 0) {
+        int hits = s.shotsFired - s.shotsMissed;
+        accuracy = static_cast<int>((float)hits / s.shotsFired * 100.f);
+    }
+
+    std::vector<std::string> lines = {
+        "Time: " + std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds),
+        "Enemies Killed: " + std::to_string(s.enemiesKilled),
+        "Shots Fired:    " + std::to_string(s.shotsFired),
+        "Accuracy:       " + std::to_string(accuracy) + "%"
+    };
+
+    float y = 360.f;
+    for (const auto& line : lines) {
+        sf::Text t;
+        t.setFont(mFont);
+        t.setCharacterSize(28);
+        t.setFillColor(sf::Color::White);
+        t.setString(line);
+        sf::FloatRect b = t.getLocalBounds();
+        t.setOrigin(b.left + b.width / 2.f, b.top + b.height / 2.f);
+        t.setPosition(500.f, y);
+        window.draw(t);
+        y += 40.f;
+    }
+
     mRestart.render(window);
     window.setView(saved);
 }

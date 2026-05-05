@@ -20,21 +20,22 @@
 
 class Game {
   public:
-    Game(sf::RenderWindow &window);
+    Game(sf::RenderWindow &window, const sf::Font &font);
     ~Game() {};
 
     void handleInput(sf::RenderWindow &mWindow);
     void update(double elapsedTime, sf::RenderWindow &mWindow);
     void render(sf::RenderWindow &mWindow);
-    void inGameStats(sf::RenderWindow &mWindow, const sf::Font &font);
     sf::Vector2f getJuanPosition() const;
     // bool isDone() const;
 
   private:
     // sf::RenderWindow mWindow;
     //  bool mIsDone;
+    void inGameStats(sf::RenderWindow &mWindow, const sf::Font &font);
     State mGameState;
     State mPreviousState;
+    sf::Font mFont;
     Welcome mWelcomeScreen;
     Play mGame;
     ResultsScreen mResults;
