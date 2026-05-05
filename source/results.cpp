@@ -55,16 +55,16 @@ ResultsScreen::ResultsScreen()
     }
 
     mHeader.setFont(mFont);
-    mHeader.setCharacterSize(72);
+    mHeader.setCharacterSize(80);
     mHeader.setString("Game Over");
     mHeader.setFillColor(sf::Color(200, 50, 50));
     sf::FloatRect hBounds = mHeader.getLocalBounds();
     mHeader.setOrigin(hBounds.left + hBounds.width / 2.f, hBounds.top + hBounds.height / 2.f);
-    mHeader.setPosition(500.f, 250.f);
+    mHeader.setPosition(500.f, 130.f);
 
     mRestart.setText("Main Menu");
     mRestart.setSize({200.f, 60.f});
-    mRestart.setPosition({400.f, 420.f});
+    mRestart.setPosition({400.f, 660.f});
 }
 
 State ResultsScreen::handleInput(sf::Event& e, sf::RenderWindow& window)
@@ -97,18 +97,18 @@ void ResultsScreen::render(sf::RenderWindow& window)
         "Accuracy:       " + std::to_string(accuracy) + "%"
     };
 
-    float y = 360.f;
+    float y = 300.f;
     for (const auto& line : lines) {
         sf::Text t;
         t.setFont(mFont);
-        t.setCharacterSize(28);
+        t.setCharacterSize(32);
         t.setFillColor(sf::Color::White);
         t.setString(line);
         sf::FloatRect b = t.getLocalBounds();
         t.setOrigin(b.left + b.width / 2.f, b.top + b.height / 2.f);
         t.setPosition(500.f, y);
         window.draw(t);
-        y += 40.f;
+        y += 70.f;
     }
 
     mRestart.render(window);
