@@ -34,9 +34,10 @@ class Game {
     // sf::RenderWindow mWindow;
     //  bool mIsDone;
     State mGameState;
-    // Welcome mWelcomeScreen;
+    State mPreviousState;
+    Welcome mWelcomeScreen;
     Play mGame;
-    // Results mResults;
+    ResultsScreen mResults;
 };
 
 #endif
