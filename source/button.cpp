@@ -15,7 +15,13 @@
  * @param text the text inside the button
  */
 
-Button::Button() : mClicked(false), mBtnState(state::normal) {}
+Button::Button() : mClicked(false), mBtnState(state::normal)
+{
+    mTextNormal = sf::Color::White;
+    mTextHover  = sf::Color::Yellow;
+    mText.setFillColor(mTextNormal);
+    mShape.setFillColor(sf::Color(80, 50, 20));
+}
 
 Button::Button(sf::Vector2f size, sf::Vector2f position, sf::Font& font, const std::string& text){
     mShape.setSize(size);
