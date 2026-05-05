@@ -30,6 +30,7 @@ class Juan {
     void takeDamage(int dmg);
     bool isDead() const;
     int getHealth() const;
+    void reset();
 
     // void setBondary(int xPosition, int yPosition, int width, int hight);
 

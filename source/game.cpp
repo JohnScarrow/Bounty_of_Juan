@@ -29,6 +29,10 @@ void Game::handleInput(sf::RenderWindow &window) {
         {
         case welcome:
             mGameState = mWelcomeScreen.handleInput(event, window);
+            if (mGameState == game) {
+                mGame.reset(window);
+                Results::instance().reset();
+            }
             break;
         case game:
             mGameState = mGame.handleInput(event, window);
@@ -85,6 +89,38 @@ void Game::render(sf::RenderWindow &window) {
     case paused:
         mGame.render(window);
         inGameStats(window, mFont);
+        {
+            sf::View saved = window.getView();
+            window.setView(window.getDefaultView());
+
+            sf::RectangleShape overlay({1000.f, 800.f});
+            overlay.setFillColor(sf::Color(0, 0, 0, 140));
+            window.draw(overlay);
+
+            sf::Text pauseText;
+            pauseText.setFont(mFont);
+            pauseText.setString("PAUSED");
+            pauseText.setCharacterSize(72);
+            pauseText.setFillColor(sf::Color::White);
+            pauseText.setOutlineColor(sf::Color::Black);
+            pauseText.setOutlineThickness(3.f);
+            sf::FloatRect b = pauseText.getLocalBounds();
+            pauseText.setOrigin(b.left + b.width / 2.f, b.top + b.height / 2.f);
+            pauseText.setPosition(500.f, 350.f);
+            window.draw(pauseText);
+
+            sf::Text hint;
+            hint.setFont(mFont);
+            hint.setString("Press ESC to resume");
+            hint.setCharacterSize(28);
+            hint.setFillColor(sf::Color(200, 200, 200));
+            sf::FloatRect hb = hint.getLocalBounds();
+            hint.setOrigin(hb.left + hb.width / 2.f, hb.top + hb.height / 2.f);
+            hint.setPosition(500.f, 450.f);
+            window.draw(hint);
+
+            window.setView(saved);
+        }
         break;
     case results:
         mResults.render(window);

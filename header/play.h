@@ -25,6 +25,7 @@ class Play {
     void render(sf::RenderWindow &window);
     sf::Vector2f getJuanPosition() const;
     bool isJuanDead() const;
+    void reset(sf::RenderWindow &window);
     void initializeEnemyList(sf::RenderWindow &window);
     void addEnemy();
     void updateAllEnemies(double elapsedTime);
