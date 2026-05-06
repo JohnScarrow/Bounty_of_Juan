@@ -30,7 +30,7 @@
 main.cpp
   └── Game (state machine)
         ├── Welcome  (title screen)
-        ├── Play     (gameplay — owns Juan + enemies)
+        ├── Play     (gameplay — Juan + enemies)
         └── ResultsScreen  (game over screen)
 ```
 
