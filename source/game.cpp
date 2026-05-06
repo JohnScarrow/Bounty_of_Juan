@@ -44,6 +44,10 @@ void Game::handleInput(sf::RenderWindow &window) {
             break;
         case results:
             mGameState = mResults.handleInput(event, window);
+            if (mGameState == welcome) {
+                mGame.reset(window);
+                Results::instance().reset();
+            }
             break;
         case quit:
             window.close();
@@ -82,7 +86,7 @@ void Game::render(sf::RenderWindow &window) {
     switch (mGameState)
     {
     case welcome:
-        mGame.render(window);
+        mGame.render(window, false);
         //dimmed display
         {
             sf::View saved = window.getView();

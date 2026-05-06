@@ -20,7 +20,7 @@ class Juan : public Character {
     ~Juan();
 
     void update(double elapsedTime, sf::RenderWindow &window, sf::Vector2f target, bool isWandering);
-    void render(sf::RenderWindow &window);
+    void render(sf::RenderWindow &window, bool showHealthBar = true);
 
     /// @brief Overrides Character::getPosition() using Juan's sprite position
     sf::Vector2f getPosition() const override;

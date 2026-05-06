@@ -126,9 +126,11 @@ void Juan::updateWander(float elapsedTime, sf::Vector2u windowSize) {
  *
  * @param window
  */
-void Juan::render(sf::RenderWindow &window) {
+void Juan::render(sf::RenderWindow &window, bool showHealthBar) {
     window.draw(mJuan);
     renderAllProjectiles(window);
+
+    if (!showHealthBar) return;
 
     // Health bar drawn in screen space
     sf::View saved = window.getView();

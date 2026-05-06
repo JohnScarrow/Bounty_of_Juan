@@ -30,7 +30,7 @@ bool Play::isJuanDead() const { return mJuan.isDead(); }
 void Play::reset(sf::RenderWindow &window)
 {
     mJuan.reset();
-    destroyEnemyList();
+    for (Enemy *x : mEnemyList) delete x;
     mEnemyList.clear();
     initializeEnemyList(window);
 }
@@ -91,8 +91,8 @@ void Play::update(double elapsedTime, sf::RenderWindow &window, float speedMulti
     checkCollisions();
 }
 
-void Play::render(sf::RenderWindow &window) {
-    mJuan.render(window);
+void Play::render(sf::RenderWindow &window, bool showHealthBar) {
+    mJuan.render(window, showHealthBar);
     if (mEnemyList.size() < 5) {
         addEnemy();
     }
