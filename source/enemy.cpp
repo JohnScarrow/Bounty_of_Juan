@@ -41,7 +41,7 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
     this->window = window;
     this->juan = juan;
     enemyCount++;
-    if (!enemyTexture.loadFromFile("assets/juan_texture.jpg")) {
+    if (!enemyTexture.loadFromFile("assets/enemy_texture.jpg")) {
         std::cerr << "Failed to load enemy texture!\n";
     }
     enemy.setTexture(enemyTexture);
@@ -61,7 +61,7 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
  */
 Enemy::Enemy() {
 
-    if (!enemyTexture.loadFromFile("assets/juan_texture.jpg")) {
+    if (!enemyTexture.loadFromFile("assets/enemy_texture.jpg")) {
         std::cerr << "Failed to load enemy texture!\n";
     }
     enemy.setTexture(enemyTexture);
@@ -201,19 +201,9 @@ void Enemy::render() {
  *
  */
 void Enemy::rotateToPlayer() {
-    // take the vector and find the angle that the enemy needs to be rotated to
-    // in order to face the player
-    float rotationAdjustment{0}; // adjustment to the rotation for the specific
-                                 // texture
-                                 // arcsin(a*sin(C)/c) = A
-                                 // need to check for cardinal directions
-    currentRotation =
-        std::asin(vectorToPlayer.x / hypotenuse) * (180 / 3.14) / 10;
-    if (currentRotation < 0) {
-        currentRotation = -1 * (currentRotation + currentRotation);
-    }
-    currentRotation += rotationAdjustment;
-    enemy.setRotation(currentRotation);
+    sf::Vector2f direction = target - enemy.getPosition();
+    float angle = std::atan2(direction.y, direction.x) * 180.f / 3.14159265f;
+    enemy.setRotation(angle + 270.f);
 }
 /**
  * @brief iterates over the list of projectiles and calls the update() method on all of them

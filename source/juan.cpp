@@ -50,6 +50,7 @@ void Juan::update(double elapsedTime, sf::RenderWindow &window,
                   sf::Vector2f target) {
     mTarget = target;
     moveJuan(200.f * elapsedTime, window);
+    faceTarget(mTarget);
     mAttackTiming++;
     if (mAttackTiming % 15 == 0)
         shoot();
@@ -180,4 +181,11 @@ Juan::~Juan() {
     for (auto x : mShootingList) {
         delete x;
     }
+}
+
+void Juan::faceTarget(sf::Vector2f target){
+    sf::Vector2f position = mJuan.getPosition();
+    sf::Vector2f direction = target - position;
+    float angle = std::atan2(direction.y, direction.x) * 180.f / 3.14159265f;
+    mJuan.setRotation(angle + 270.f);
 }
