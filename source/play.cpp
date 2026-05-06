@@ -11,28 +11,10 @@
 #include "../header/results.h"
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
+#include <cmath>
+
 Play::Play() {
-    // mJuan.setBondary(30, 20, 580, 400);
 
-    // mRules.setPosition(sf::Vector2f(60, 450));
-    // mRules.setSize(sf::Vector2f(60, 20));
-    // mRules.setText("Rules");
-    // mRules.setColorTextNormal(sf::Color::Blue);
-
-    // mRestart.setPosition(sf::Vector2f(220, 450));
-    // mRestart.setSize(sf::Vector2f(60, 20));
-    // mRestart.setText("Restart");
-    // mRestart.setColorTextNormal(sf::Color::Blue);
-
-    // mResults.setPosition(sf::Vector2f(420, 450));
-    // mResults.setSize(sf::Vector2f(60, 20));
-    // mResults.setText("Results");
-    // mResults.setColorTextNormal(sf::Color::Blue);
-
-    // mExit.setText("Exit");
-    // mExit.setPosition({580, 450});
-    // mExit.setSize({60, 20});
-    // mExit.setColorTextNormal(sf::Color::Blue);
 }
 // Pausing Game Feature
 State Play::handleInput(sf::Event& e, sf::RenderWindow& window)
@@ -99,16 +81,14 @@ void Play::checkCollisions() {
     }
 }
 
-void Play::update(double elapsedTime, sf::RenderWindow &window) {
-    Results::instance().updateTime(elapsedTime);
-    mJuan.update(elapsedTime, window, selectTarget());
-    updateAllEnemies(elapsedTime);
-    checkCollisions();
+void Play::update(double elapsedTime, sf::RenderWindow &window, float speedMultiplier, bool wander) {
+    double scaledTime = elapsedTime * speedMultiplier;
 
-    // mRules.update();
-    // mRestart.update();
-    // mResults.update();
-    // mExit.update();
+    mJuan.update(scaledTime, window, selectTarget(), wander);
+
+    Results::instance().updateTime(scaledTime);
+    updateAllEnemies(scaledTime);
+    checkCollisions();
 }
 
 void Play::render(sf::RenderWindow &window) {
@@ -117,11 +97,6 @@ void Play::render(sf::RenderWindow &window) {
         addEnemy();
     }
     renderAllEnemies();
-
-    // window.draw(mRules);
-    // window.draw(mRestart);
-    // window.draw(mResults);
-    // window.draw(mExit);
 }
 /**
  * @brief Makes the first enemy which initializes the static variables
@@ -157,11 +132,13 @@ void Play::renderAllEnemies() {
         x->render();
     }
 }
+
 /**
  * @brief takes in a pointer to an enemy and frees up the memory allocated to them
  * 
  * @param enemy 
  */
+
 void Play::destroyEnemy(Enemy *enemy) { Results::instance().enemyKilled(); delete enemy; }
 /**
  * @brief removes the entire list of enemies

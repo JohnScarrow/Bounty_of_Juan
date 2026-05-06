@@ -27,11 +27,8 @@ class Game {
     void update(double elapsedTime, sf::RenderWindow &mWindow);
     void render(sf::RenderWindow &mWindow);
     sf::Vector2f getJuanPosition() const;
-    // bool isDone() const;
 
   private:
-    // sf::RenderWindow mWindow;
-    //  bool mIsDone;
     void inGameStats(sf::RenderWindow &mWindow, const sf::Font &font);
     State mGameState;
     State mPreviousState;

@@ -11,6 +11,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <string>
 #include <vector>
+#include <cmath>
 
 Game::Game(sf::RenderWindow &window, const sf::Font &font) {
     mGameState = welcome;
@@ -58,9 +59,10 @@ void Game::update(double elapsedTime, sf::RenderWindow &window) {
     {
     case welcome:
         mWelcomeScreen.update(window);
+        mGame.update(elapsedTime, window, 0.5f, true);
         break;
     case game:
-        mGame.update(elapsedTime, window);
+        mGame.update(elapsedTime, window, 1.0f, false);
         if (mGame.isJuanDead())
             mGameState = results;
         break;
@@ -80,6 +82,16 @@ void Game::render(sf::RenderWindow &window) {
     switch (mGameState)
     {
     case welcome:
+        mGame.render(window);
+        //dimmed display
+        {
+            sf::View saved = window.getView();
+            window.setView(window.getDefaultView());
+            sf::RectangleShape dim({(float)window.getSize().x, (float)window.getSize().y});
+            dim.setFillColor(sf::Color(0, 0, 0, 100)); 
+            window.draw(dim);
+            window.setView(saved);
+        }
         mWelcomeScreen.render(window);
         break;
     case game:
