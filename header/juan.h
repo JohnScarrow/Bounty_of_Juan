@@ -26,6 +26,7 @@ class Juan {
     void destoryProjectile(Projectile *x);
     void shoot();
     void setTarget(sf::Vector2f target) { mTarget = target; }
+    void faceTarget(sf::Vector2f target);
     const std::vector<Projectile *> &getProjectiles() const { return mShootingList; }
     void takeDamage(int dmg);
     bool isDead() const;
