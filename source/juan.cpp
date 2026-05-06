@@ -18,24 +18,20 @@
  * @brief Construct a new Juan:: Juan object
  *
  */
-Juan::Juan() {
+Juan::Juan() : Character(100) {
     if (!mTextureTile.loadFromFile("assets/juan_texture.jpg")) {
         std::cout << "Failed to load juan texture\n";
     }
     mJuan.setRadius(31);
     mJuan.setTexture(&mTextureTile);
-    // mJuan.setTextureRect(sf::IntRect(64, 32, 62, 62));
     mJuan.setOrigin(62.f / 2.f, 62.f / 2.f);
     mJuan.setPosition(400.f, 300.f);
-
-    // mIncrement = sf::Vector2f(4.f, 4.f);
 
     mPosition.x = 0;
     mPosition.y = 0;
     mSize.x = 0;
     mSize.y = 0;
     mAttackTiming = 0;
-    mHealth = 100;
 }
 
 sf::Vector2f Juan::getPosition() const { return mJuan.getPosition(); }
@@ -102,7 +98,7 @@ void Juan::render(sf::RenderWindow &window) {
     bg.setFillColor(sf::Color(80, 0, 0));
     window.draw(bg);
 
-    float pct = std::max(0, mHealth) / 100.f;
+    float pct = static_cast<float>(std::max(0, mHealth)) / mMaxHealth;
     sf::RectangleShape fill({barW * pct, barH});
     fill.setPosition(barX, barY);
     fill.setFillColor(sf::Color(220, 40, 40));
@@ -111,9 +107,6 @@ void Juan::render(sf::RenderWindow &window) {
     window.setView(saved);
 }
 
-void Juan::takeDamage(int dmg) { if (mHealth > 0) mHealth -= dmg; }
-bool Juan::isDead() const { return mHealth <= 0; }
-int Juan::getHealth() const { return mHealth; }
 void Juan::reset()
 {
     mHealth = 100;
