@@ -34,6 +34,8 @@ main.cpp
         └── ResultsScreen  (game over screen)
 ```
 
+**Sprint Refactoring**: Both Juan and Enemy now inherit from a `Character` base class that handles shared health mechanics (damage, death detection). This eliminates code duplication and enables polymorphic design patterns for future features like unified stat tracking or character collections.
+
 ---
 
 ## 4. Contributor Sections (4.5 min — ~1 min each)
@@ -56,6 +58,7 @@ main.cpp
 - Added collision detection between Juan's projectiles and enemy hitboxes (`checkCollisions` in `play.cpp`)
 - Enemies have 3 HP and are removed from the heap when killed, with memory managed via pointer vector cleanup
 - Integrated all enemies into `Play` with `initializeEnemyList`, `addEnemy`, `updateAllEnemies`, and `destroyEnemyList`
+- **Sprint Update**: Refactored `Enemy` to inherit from `Character` base class, eliminating code duplication and enabling polymorphic character handling
 
 ### Tristan — Button Class, Stats & HUD
 - Added initial Juan stats structure to `juan.h` and `juan.cpp` (first stat tracking groundwork)

@@ -47,6 +47,15 @@ The compiled executable is named `game`. All object files go into `objects/`.
 
 ---
 
+## Design & Polymorphism
+
+The game uses object-oriented design with a **Character base class** that provides shared health management for both Juan (player, 100 HP) and Enemy (ai, 3 HP). This enables:
+- **Code reuse**: Health tracking, damage application, and death detection shared via inheritance
+- **Polymorphism**: Both character types implement `getPosition() const` overrides, allowing future polymorphic collections or unified stat systems
+- **Separation of concerns**: Combat logic in `Play::checkCollisions()` uses inherited methods (`takeDamage()`, `isDead()`) without caring about concrete types
+
+---
+
 ## Controls
 
 | Key | Action |
@@ -125,6 +134,7 @@ main.cpp
 - Added collision detection between Juan's projectiles and enemy hitboxes (`checkCollisions` in `play.cpp`)
 - Enemies have 3 HP and are removed from the heap when killed, with memory managed via pointer vector cleanup
 - Integrated all enemies into `Play` with `initializeEnemyList`, `addEnemy`, `updateAllEnemies`, and `destroyEnemyList`
+- **Update (Post-Sprint)**: Refactored `Enemy` to inherit from `Character` base class, eliminating duplicate health management code and enabling polymorphic character handling
 
 #### Tristan — Button Class, Stats & HUD
 - Added initial Juan stats structure to `juan.h` and `juan.cpp` (first stat tracking groundwork)
