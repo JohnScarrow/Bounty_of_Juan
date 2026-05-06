@@ -37,7 +37,7 @@ unsigned int Enemy::enemyCount = 0;
  * @param juan Pointer to the PC
  * @param window Pointer to the Window object
  */
-Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
+Enemy::Enemy(Juan *juan, sf::RenderWindow *window) : Character(3) {
     this->window = window;
     this->juan = juan;
     enemyCount++;
@@ -51,7 +51,6 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
     getRandomSpawn();
     enemy.setPosition(spawnLocation);
     speed = 100;
-    health = 3;
     attackTiming = 0;
     mDamageTimer = 0.f;
 }
@@ -59,7 +58,7 @@ Enemy::Enemy(Juan *juan, sf::RenderWindow *window) {
  * @brief General constructor for majority of the Enemy class
  *
  */
-Enemy::Enemy() {
+Enemy::Enemy() : Character(3) {
 
     if (!enemyTexture.loadFromFile("assets/juan_texture.jpg")) {
         std::cerr << "Failed to load enemy texture!\n";
@@ -69,7 +68,6 @@ Enemy::Enemy() {
                     enemyTexture.getSize().y / 2.f);
     enemy.scale(.125, .125);
     speed = (rand() % 50) + 100;
-    health = 3;
     attackTiming = 0;
     mDamageTimer = 0.f;
     getRandomSpawn();
@@ -256,8 +254,6 @@ void Enemy::shoot() {
     shootingList.push_back(new Projectile(currentPosition, target));
 }
 
-void Enemy::takeDamage(int dmg) { health -= dmg; }
-bool Enemy::isDead() const { return health <= 0; }
 sf::FloatRect Enemy::getGlobalBounds() const { return enemy.getGlobalBounds(); }
 /**
  * @brief Destroy the Enemy:: Enemy object

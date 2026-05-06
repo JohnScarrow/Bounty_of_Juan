@@ -28,6 +28,7 @@
  * make an enemy and have him attack the player while walking at the player
  *
  */
+#include "../header/character.h"
 #include "../header/juan.h"
 #include "../header/projectile.h"
 #include <SFML/Graphics.hpp>
@@ -40,7 +41,7 @@
 #include <sys/types.h>
 #include <vector>
 enum Location { Top = 1, Bottom, Left, Right };
-class Enemy {
+class Enemy : public Character {
   public:
     /*
      * load in enemy textures and attacks
@@ -50,6 +51,7 @@ class Enemy {
     ~Enemy();
     float getHypotenuse() { return hypotenuse; }
     sf::Vector2f getEnemyPos() { return this->enemy.getPosition(); }
+    sf::Vector2f getPosition() const override { return this->enemy.getPosition(); }
     void getPlayerPos();
     void setVector();
     void getRandomSpawn();
@@ -62,8 +64,6 @@ class Enemy {
     void renderAllProjectiles();
     void destoryProjectile(Projectile *x);
     void shoot();
-    void takeDamage(int dmg);
-    bool isDead() const;
     sf::FloatRect getGlobalBounds() const;
     static sf::RenderWindow *window;
     static Juan *juan;
@@ -73,7 +73,6 @@ class Enemy {
     std::vector<Projectile *> shootingList;
     uint attackTiming;
     unsigned int attackSpeed;
-    int health;
     float mDamageTimer;
     float speed;
     float hypotenuse;
