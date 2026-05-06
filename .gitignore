@@ -2,7 +2,7 @@
 /.vscode/
 /.claude/
 /game
-
+*.Zone.Identifier
 
 # Prerequisites
 *.d
