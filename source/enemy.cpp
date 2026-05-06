@@ -167,7 +167,7 @@ void Enemy::update(double elapsedTime) {
     if (hypotenuse <= 40.f) {
         mDamageTimer += elapsedTime;
         if (mDamageTimer >= 1.0f) {
-            juan->takeDamage(10);
+            juan->takeDamage(20);
             mDamageTimer = 0.f;
         }
     } else {

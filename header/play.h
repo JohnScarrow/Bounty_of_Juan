@@ -21,7 +21,7 @@ class Play {
     Play();
     ~Play();
     State handleInput(sf::Event &e, sf::RenderWindow &window);
-    void update(double elapsedTime, sf::RenderWindow &window);
+    void update(double elapsedTime, sf::RenderWindow &window, float speedMultiplier = 1.0f, bool wander = false);
     void render(sf::RenderWindow &window);
     sf::Vector2f getJuanPosition() const;
     bool isJuanDead() const;
@@ -38,10 +38,7 @@ class Play {
   private:
     Juan mJuan;
     std::vector<Enemy *> mEnemyList;
-    // Button mRestart;
-    // Button mRules;
-    // Button mResults;
-    // Button mExit;
+    float mWanderAngle = 0.0f;
 };
 
 #endif

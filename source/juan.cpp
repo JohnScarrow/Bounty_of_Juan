@@ -42,14 +42,22 @@ sf::Vector2f Juan::getPosition() const { return mJuan.getPosition(); }
  * @param elapsedTime time since last update
  * @param window
  */
-void Juan::update(double elapsedTime, sf::RenderWindow &window,
-                  sf::Vector2f target) {
+void Juan::update(double elapsedTime, sf::RenderWindow &window, sf::Vector2f target, bool isWandering) {
+    if (isWandering) {
+        updateWander((float)elapsedTime, window.getSize());
+    } else {
+        moveJuan(200.f * elapsedTime, window);
+    }
+
     mTarget = target;
-    moveJuan(200.f * elapsedTime, window);
+
+    // Always face + attack (even while wandering)
     faceTarget(mTarget);
+
     mAttackTiming++;
     if (mAttackTiming % 15 == 0)
         shoot();
+
     updateAllProjectiles(window, elapsedTime);
 }
 
@@ -78,6 +86,40 @@ void Juan::moveJuan(float speed, sf::RenderWindow &window) {
         mJuan.move(movement * speed);
     }
 }
+
+void Juan::moveJuan(sf::Vector2f movement) 
+{
+    mJuan.move(movement);
+}
+
+void Juan::updateWander(float elapsedTime, sf::Vector2u windowSize) {
+    mWanderTimer += elapsedTime;
+
+    // random direction
+    if (mWanderTimer >= mWanderInterval) 
+    {
+        mWanderTimer = 0.f;
+
+        // new angle
+        float newAngle = static_cast<float>((std::rand() % 360) * 3.14159265f / 180.f);
+
+        // blend instead of snap
+        float blend = 0.25f; // smoothness - lower is smoother
+        mWanderAngle = (1 - blend) * mWanderAngle + blend * newAngle;
+
+        // randomize next direction
+        mWanderInterval = 1.5f + static_cast<float>(std::rand() % 200) / 100.f; // 1.5s - 3.5s
+    }
+
+    // smooth movement 
+    sf::Vector2f movement(
+        std::cos(mWanderAngle) * WANDER_SPEED * elapsedTime,
+        std::sin(mWanderAngle) * WANDER_SPEED * elapsedTime
+    );
+
+    mJuan.move(movement);
+}
+
 
 /**
  * @brief Render objects from the scene onto the window
@@ -116,22 +158,6 @@ void Juan::reset()
     mShootingList.clear();
 }
 
-// #include "juan.h"
-
-// float Player::getHealth(){
-//     return health;
-// }
-
-// float Player::getDamage(){
-//     return damage;
-// }
-
-// void Player::setHealth(float hp){
-//     health = hp;
-// }
-// void Player::setDamage(float dmg){
-//     damage = dmg;
-// }
 void Juan::updateAllProjectiles(sf::RenderWindow &window, double elapsedTime) {
     std::vector<Projectile *> temp;
     for (Projectile *x : mShootingList) {
