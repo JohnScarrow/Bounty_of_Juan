@@ -34,7 +34,7 @@ Play::Play() {
     // mExit.setSize({60, 20});
     // mExit.setColorTextNormal(sf::Color::Blue);
 }
-
+// Pausing Game Feature
 State Play::handleInput(sf::Event& e, sf::RenderWindow& window)
 {
     if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
